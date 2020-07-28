@@ -56,3 +56,41 @@ E para remover o cluster:
 E para remover todos os clusters e perfis:
 
 ```minikube delete --all```
+
+## Comandos principais: kubectl
+
+Para listar os pods:
+
+```kubectl get pods```
+
+Pbm funcionar para deployments e services, por exemplo::
+
+```kubectl get services```
+
+Para detalhes de um pod:
+
+```kubectl describe pod <nome-pod>```
+
+P comando describe tbm funciona para deployment e service, por exemplo::
+
+```kubectl describe service <nome>```
+
+Para criar pod, deployment ou service a partir de um arquivo yml:
+
+```kubectl create -f <nome-arquivo-yml>```
+
+Para remover pod, deployment ou service a partir de um arquivo yml:
+
+```kubectl delete -f <nome-arquivo-yml>```
+
+Para remover um pod:
+
+```kubectl delete pod <nome-pod>```
+
+Para remover um deployment:
+
+```kubectl delete deployment <nome-deployment>```
+
+Para remover um service:
+
+```kubectl delete service <nome-service>```
