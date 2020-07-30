@@ -193,3 +193,15 @@ spec:
 Salvando as configurações em um arquivo deploy-sistema.yml podemos aplicá-lo pelo comando:
 
 ```kubectl create -f deploy-sistema.yml```
+
+## kubectl edit
+
+Nos bastidores, tudo é possível definir e controlar através do arquivo YAML. Isso fornece maior controle e é mais fácil de fazer alterações e atualizar o cluster.
+
+As definições de um objeto do Kubernetes já carregados podem ser editadas ao vivo pelo kubectl usando:
+
+```kubectl edit deployment aplicacao-noticia-deployment```
+
+Isso abrirá a configuração do deployment no formato YAML usando VIM. Nessa configuração aparecem todos os dados desse objeto, também os valores padrões que não foram definidos explicitamente.
+
+Ao salvar e sair, as alterações solicitadas serão aplicadas.

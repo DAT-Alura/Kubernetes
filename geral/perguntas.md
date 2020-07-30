@@ -136,3 +136,25 @@ spec:
 ...
 ```
 > Correto! Com o StatefulSet podemos definir o compartilhamento de arquivos entre os Pods.
+
+## Aula 4
+
+1 - Agora que temos o ambiente que pode se replicar, precisamos avisar nossos gestores toda vez em que um novo Pod é criado em nosso ambiente. Cada novo Pod criado gera um custo financeiro para manter o portal, e os gestores querem acompanhar de perto onde o dinheiro está sendo investido.
+Pensando nisso, como podemos avisar os gestores toda vez em que um novo Pod é criado?
+
+- A
+Podemos dar um ping em todos os endereços IPs dos Pods, o Pod que não responder é porque está inoperante.
+```ping $(kubectl get pods | grep IP)```
+
+- __B__
+Utilizando o parâmetro lifecycle na construção das réplicas.
+``` yml
+lifecycle:
+   postStart:
+      exec:
+         command: ["sh","notificacao.sh"]
+```
+> Correto! Dessa forma com o parâmetro postStart, após iniciar o Pod, podemos executar a ação de notificação.
+
+- C
+O Kubernetes apenas orquestra o ambiente, não possui nenhum tipo de monitoração.
