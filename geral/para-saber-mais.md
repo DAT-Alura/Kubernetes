@@ -205,3 +205,14 @@ As definições de um objeto do Kubernetes já carregados podem ser editadas ao 
 Isso abrirá a configuração do deployment no formato YAML usando VIM. Nessa configuração aparecem todos os dados desse objeto, também os valores padrões que não foram definidos explicitamente.
 
 Ao salvar e sair, as alterações solicitadas serão aplicadas.
+
+## Docker Swarm
+
+Aprendemos que o Kubernetes usa a Docker Engine para rodar os containers dentro do cluster. Isso não é obrigatório mas é o mais comum. Ou seja, já que usamos Docker para rodar os containers, será que existe uma solução do Docker mesmo para gerenciar e orquestrar containers? Um cluster nativo do Docker?
+
+Existe sim e se chama Docker Swarm. Ou seja, Docker Swarm e Kubernetes são alternativas ou concorrentes, ambos são orquestradores de container.
+
+Kubernetes vs Docker Swarm
+A comparação entre eles é algo complexo e talvez injusta, mas em geral o Docker Swarm tende ser mais simples e leve do que o Kubernetes. Isto é pois o Docker Swarm aproveita vários comandos e configurações do Docker. Aprendendo o Docker você também já conhece uma parte do Docker Swarm.
+
+O Kubernetes por sua vez tem uma curva de aprendizagem mais íngreme, define outras ferramentas como o kubectl. No entanto o Kubernetes possui uma comunidade enorme e muitas ferramentas ao redor, alem do amplo uso pelos provedores de cloud (AWS, Azure, Google). Além disso, o Kubernetes é baseado na experiencia do Google, é um projeto opensource do Google e isso ajudou muito na popularidade da ferramenta.

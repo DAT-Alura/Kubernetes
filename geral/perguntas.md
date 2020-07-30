@@ -158,3 +158,24 @@ lifecycle:
 
 - C
 O Kubernetes apenas orquestra o ambiente, não possui nenhum tipo de monitoração.
+
+## Aula 5
+
+1 - Historicamente podemos perceber que o portal de notícias da Alura tem um aumento no número de acessos no período da manhã. Porém, sempre que lançamos um produto novo, as campanhas realizadas pela equipe de marketing trazem um número elevado de usuários ao portal.
+Pensando nisso, como podemos replicar nosso ambiente de forma automática?
+
+- A
+A melhor solução é já definir na criação do ambiente uma quantidade elevada de pods, dessa forma não teremos problema de performance.
+``` yml
+replicas:
+    min: 500
+    max: 1000
+```
+
+- B
+O ideal é contratar um funcionário dedicado para ficar dando ping no ambiente, pois ele saberá o que fazer.
+
+- C
+Criando um serviço do tipo "horizontalpodautoscaler"
+```kubectl autoscale deployment aplicacao-noticia-deployment --cpu-percent=50 --min=1 --max=10```
+> Correto! Dessa forma definimos a quantidade de pods máxima e mínima para suportar nosso ambiente
