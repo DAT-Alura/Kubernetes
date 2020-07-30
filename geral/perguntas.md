@@ -77,3 +77,62 @@ metadata:
 spec:
   type: LoadBalancer
 ```
+
+## Aula 3
+
+1 - O seu amigo também está estudando K8s e achou um desenho mais conceitual sobre os objetos no cluster:
+![Imagem](./imagens/Aula-3-Ex-1.png)
+O problema é que a legenda do desenho ficou perdida. Você consegue associar corretamente a cor ao tipo do objeto?
+
+- __A__
+azul: Deployment
+amarelo: Pod
+verde: Service
+> Alternativa correta! O Pod é a menor unidade de deploy, o deployment é responsável por criar e monitorar os Pods (através de um replicaset) e o service possui um IP/Porta para acessar um dos Pods (balancear a carga).
+
+- B
+azul: Pod
+amarelo: Service
+verde: Deployment
+
+- C
+azul: Service
+amarelo: Deployment
+verde: Pod
+
+2 - Percebemos que ao replicarmos o sistema de notícias, sempre que cadastramos uma nova notícia, as imagens não estavam disponíveis em todos os Pods. Dessa forma geramos um bug para o usuário que queria ver a imagem e não conseguia.
+Com qual tipo de controle podemos garantir que o estado de cada Pod seja preservado e compartilhado?
+
+- A
+
+O ideal nesses casos é não replicar a aplicação, pois o Kubernetes não dá suporte a esse problema.
+
+- B
+
+Precisamos montar um volume apenas com o PersistentVolumeClaim, e definir as permissões de acesso ao storage.
+``` yml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: configuracao-permissao
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+```
+
+- __C__
+
+Podemos colocar um controle do tipo StatefulSet, dessa forma sempre que aplicarmos um Pod, seu estado será preservado.
+``` yml
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: aplicacao-sistema-statefulset
+spec:
+  serviceName: servico-sistema-statefulset
+...
+```
+> Correto! Com o StatefulSet podemos definir o compartilhamento de arquivos entre os Pods.

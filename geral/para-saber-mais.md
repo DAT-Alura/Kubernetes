@@ -110,3 +110,86 @@ kubectl scale --replicas=3 deployment/nginx-deploy
 ```
 
 Para deploys em produção, o arquivo de configuração YML é indispensável, pois agrupa as configurações em um único lugar e é possível deployar e atualizar com único comando, além de ser possível versionar no repositório.
+
+## Juntando configs
+
+No vídeo, você viu que deployamos a aplicação criando vários arquivos YML, cada definindo o seu recurso e configuração. Por exemplo, para expor o serviço aplicação sistema criamos 4 arquivos YML.
+
+Isso pode ficar confuso na medida que a quantidade de arquivos cresce, e por isso é possível juntá-los. Podemos juntar, por exemplo, todas as configurações relacionadas com o sistema:
+
+``` yml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: permissao-imagens
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: permissao-sessao
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: aplicacao-sistema-statefulset
+spec:
+  serviceName: aplicacao-sistema-statefulset
+  selector:
+    matchLabels:
+      name: aplicacao-sistema-pod-statefulset
+  template:
+    metadata:
+      labels:
+        name: aplicacao-sistema-pod-statefulset
+    spec:
+      containers:
+        - name: container-aplicacao-sistema-statefulset
+          image: jnlucas/noticia-alura:v2
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: imagens
+              mountPath: /var/www/html/uploads
+            - name: sessoes
+              mountPath: /tmp
+      volumes:
+        - name: imagens
+          persistentVolumeClaim:
+            claimName: permissao-imagens
+        - name: sessoes
+          persistentVolumeClaim:
+            claimName: permissao-sessao
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: servico-aplicacao-sistema-statefulset
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      nodePort: 31822
+  selector:
+    name: aplicacao-sistema-pod-statefulset
+```
+
+Salvando as configurações em um arquivo deploy-sistema.yml podemos aplicá-lo pelo comando:
+
+```kubectl create -f deploy-sistema.yml```
